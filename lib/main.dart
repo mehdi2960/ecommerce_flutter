@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
           onSecondary: Colors.white,
         ),
         textTheme: TextTheme(
+          subtitle1: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
           bodyText2: defaultTextStyle,
+          button: defaultTextStyle,
           caption: defaultTextStyle.apply(
             color: LightThemeColors.secondaryTextColor,
           ),
