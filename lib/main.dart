@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/root.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Directionality(
         textDirection: TextDirection.rtl,
-        child: HomeScreen(),
+        child: RootScreen(),
       ),
     );
   }
