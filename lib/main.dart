@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           caption: defaultTextStyle.apply(
             color: LightThemeColors.secondaryTextColor,
           ),
-          headline6: defaultTextStyle.copyWith(fontWeight: FontWeight.bold),
+          headline6: defaultTextStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 18),
         ),
       ),
       home: const Directionality(

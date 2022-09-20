@@ -7,6 +7,7 @@ import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/repo/banner_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/product_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/home/bloc/home_bloc.dart';
+import 'package:nike_ecommerce_flutter/ui/product/product.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
@@ -31,6 +32,7 @@ class HomeScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is HomeSuccess) {
                 return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   // padding: const EdgeInsets.fromLTRB(12, 12, 12, 100),
                   itemCount: 5,
                   itemBuilder: (context, index) {
@@ -131,80 +133,14 @@ class _HorizentalProductList extends StatelessWidget {
           height: 290,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              itemCount: products.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: SizedBox(
-                    width: 176,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: 176,
-                              height: 189,
-                              child: ImageLoadingService(
-                                imageUrl: product.imageUrl,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            Positioned(
-                              right: 8,
-                              top: 8,
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  CupertinoIcons.heart,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            product.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text(
-                            product.previousPrice.withPriceLabel,
-                            style:
-                                Theme.of(context).textTheme.caption!.copyWith(
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8,top: 8),
-                          child: Text(
-                            product.price.withPriceLabel,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            itemCount: products.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return ProductItem(product: product,borderRadius: BorderRadius.circular(12),);
+            },
+          ),
         )
       ],
     );
