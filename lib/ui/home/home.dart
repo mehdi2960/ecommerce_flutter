@@ -2,12 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nike_ecommerce_flutter/common/exceptions.dart';
 import 'package:nike_ecommerce_flutter/data/banner.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/data/repo/banner_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/product_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/home/bloc/home_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/product/product.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/error.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
@@ -71,18 +73,11 @@ class HomeScreen extends StatelessWidget {
               } else if (state is HomeLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is HomeError) {
-                return Center(
-                  child: Column(
-                    children: [
-                      Text(state.exception.message),
-                      ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
-                        },
-                        child: const Text('تلاش دوباره'),
-                      ),
-                    ],
-                  ),
+                return AppErrorWidget(
+                  exception: state.exception,
+                  onPress: () {
+                    BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+                  },
                 );
               } else {
                 throw Exception('state is not supported');
@@ -138,7 +133,10 @@ class _HorizentalProductList extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final product = products[index];
-              return ProductItem(product: product,borderRadius: BorderRadius.circular(12),);
+              return ProductItem(
+                product: product,
+                borderRadius: BorderRadius.circular(12),
+              );
             },
           ),
         )

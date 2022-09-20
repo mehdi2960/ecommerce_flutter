@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/product.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/product/comment/comment_list.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
 
@@ -17,7 +18,7 @@ class ProductDetailScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         floatingActionButton: SizedBox(
-          width: MediaQuery.of(context).size.width-48,
+          width: MediaQuery.of(context).size.width - 48,
           child: FloatingActionButton.extended(
             onPressed: () {},
             label: const Text('افزودن به سبد خرید'),
@@ -33,7 +34,9 @@ class ProductDetailScreen extends StatelessWidget {
               foregroundColor: LightThemeColors.primaryTextColor,
               actions: [
                 IconButton(
-                    onPressed: () {}, icon: const Icon(CupertinoIcons.heart))
+                  onPressed: () {},
+                  icon: const Icon(CupertinoIcons.heart),
+                ),
               ],
             ),
             SliverToBoxAdapter(
@@ -52,13 +55,12 @@ class ProductDetailScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(product.previousPrice.withPriceLabel,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .apply(
-                                        decoration:
-                                            TextDecoration.lineThrough)),
+                            Text(
+                              product.previousPrice.withPriceLabel,
+                              style: Theme.of(context).textTheme.caption!.apply(
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                            ),
                             Text(product.price.withPriceLabel),
                           ],
                         ),
@@ -69,6 +71,7 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     const Text(
                       'این کتونی شدیدا برای دویدن و راه رفتن مناسب هست و تقریبا. هیچ فشار مخربی رو نمیذارد به پا و زانوان شما انتقال داده شود',
+                      style: TextStyle(height: 1.4),
                     ),
                     const SizedBox(
                       height: 24,
@@ -82,19 +85,22 @@ class ProductDetailScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {},
-                          child: const Text('ثبت نظر'),
+                          child: const Text(
+                            'ثبت نظر',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    Container(
-                      color: Colors.black,
-                      width: 300,
-                      height: 1000,
-                    ),
+
                   ],
                 ),
               ),
             ),
+            CommentList(productId: product.id)
           ],
         ),
       ),
