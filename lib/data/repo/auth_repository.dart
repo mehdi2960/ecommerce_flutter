@@ -5,6 +5,7 @@ final authRepository = AuthRepository(AuthRemoteDataSource(httpClient));
 
 abstract class IAuthRepository {
   Future<void> login(String username, String password);
+  Future<void> register(String username, String password);
 }
 
 class AuthRepository implements IAuthRepository {
@@ -15,5 +16,10 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<void> login(String username, String password) {
     return dataSource.login(username, password);
+  }
+  
+  @override
+  Future<void> register(String username, String password) {
+  return dataSource.register(username, password);
   }
 }
