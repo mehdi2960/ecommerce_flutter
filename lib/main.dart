@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
+import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/root.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Directionality(
         textDirection: TextDirection.rtl,
-        child: RootScreen(),
+        child: AuthScreen(),
       ),
     );
   }
