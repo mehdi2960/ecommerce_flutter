@@ -6,9 +6,7 @@ abstract class IBannerDataSource {
   Future<List<BannerEntity>> getAll();
 }
 
-class BannerRemoteDataSource
-    with HttpResponceValidator
-    implements IBannerDataSource {
+class BannerRemoteDataSource  with HttpResponceValidator  implements IBannerDataSource {
   final Dio httpClient;
 
   BannerRemoteDataSource(this.httpClient);
