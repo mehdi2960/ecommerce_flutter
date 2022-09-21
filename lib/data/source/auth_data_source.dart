@@ -35,9 +35,19 @@ class AuthRemoteDataSource
   }
 
   @override
-  Future<AuthInfo> refreshToken(String token) {
-    // TODO: implement refreshToken
-    throw UnimplementedError();
+  Future<AuthInfo> refreshToken(String token) async {
+    final responce = await httpClient.post('auth/token', data: {
+      "grant_type": "refresh_token",
+      "refresh_token": token,
+      "client_id": 2,
+      "client_secret": Constants.clientSecret,
+    });
+
+    validateResponce(responce);
+    return AuthInfo(
+      responce.data['access_token'],
+      responce.data['refresh_token'],
+    );
   }
 
   @override
