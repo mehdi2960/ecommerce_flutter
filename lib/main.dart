@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/root.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  authRepository.loadAuthInfo();
   runApp(const MyApp());
 }
 
@@ -27,13 +30,15 @@ class MyApp extends StatelessWidget {
           onSecondary: Colors.white,
         ),
         textTheme: TextTheme(
-          subtitle1: defaultTextStyle.apply(color: LightThemeColors.secondaryTextColor),
+          subtitle1: defaultTextStyle.apply(
+              color: LightThemeColors.secondaryTextColor),
           bodyText2: defaultTextStyle,
           button: defaultTextStyle,
           caption: defaultTextStyle.apply(
             color: LightThemeColors.secondaryTextColor,
           ),
-          headline6: defaultTextStyle.copyWith(fontWeight: FontWeight.bold,fontSize: 18),
+          headline6: defaultTextStyle.copyWith(
+              fontWeight: FontWeight.bold, fontSize: 18),
         ),
       ),
       home: const Directionality(

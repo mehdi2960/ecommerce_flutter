@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -9,6 +10,11 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
+
+  final TextEditingController usernameController =
+      TextEditingController(text: "test@gmail.com");
+  final TextEditingController passwordController =
+      TextEditingController(text: "123456");
   @override
   Widget build(BuildContext context) {
     const onBackground = Colors.white;
@@ -26,7 +32,8 @@ class _AuthScreenState extends State<AuthScreen> {
               const Size.fromHeight(56),
             ),
             backgroundColor: MaterialStateProperty.all(onBackground),
-            foregroundColor:MaterialStateProperty.all(themeData.colorScheme.secondary),
+            foregroundColor:
+                MaterialStateProperty.all(themeData.colorScheme.secondary),
           ),
         ),
         colorScheme: themeData.colorScheme.copyWith(onSurface: onBackground),
@@ -73,21 +80,30 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(
                 height: 24,
               ),
-              const TextField(
+              TextField(
+                controller: usernameController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   label: Text('آدرس ایمیل'),
                 ),
               ),
               const SizedBox(
                 height: 16,
               ),
-              const _PasswordTextField(onBackground: onBackground),
+              _PasswordTextField(
+                onBackground: onBackground,
+                controller: passwordController,
+              ),
               const SizedBox(
                 height: 16,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  authRepository.login(
+                    usernameController.text,
+                    passwordController.text,
+                  );
+                },
                 child: Text(isLogin ? 'ورود' : 'ثبت نام'),
               ),
               const SizedBox(
@@ -133,9 +149,11 @@ class _PasswordTextField extends StatefulWidget {
   const _PasswordTextField({
     Key? key,
     required this.onBackground,
+    required this.controller,
   }) : super(key: key);
 
   final Color onBackground;
+  final TextEditingController controller;
 
   @override
   State<_PasswordTextField> createState() => _PasswordTextFieldState();
@@ -147,6 +165,7 @@ class _PasswordTextFieldState extends State<_PasswordTextField> {
   Widget build(BuildContext context) {
     const onBackground = Colors.white;
     return TextField(
+      controller: widget.controller,
       keyboardType: TextInputType.visiblePassword,
       obscureText: obsecureText,
       decoration: InputDecoration(
