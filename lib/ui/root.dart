@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 
 const int homeIndex = 0;
@@ -52,28 +53,24 @@ class _RootScreenState extends State<RootScreen> {
             index: selectedScreenIndex,
             children: [
               _navigator(_homeKey, homeIndex, const HomeScreen()),
-              _navigator(
-                  _cartKey,
-                  cartIndex,
-                  const Center(
-                    child: Text('Cart'),
-                  )),
-              _navigator(
-                  _profileKey,
-                  profileIndex,
-                  const Center(
-                    child: Text('Profile'),
-                  )),
+              _navigator(_cartKey, cartIndex, const CartScreen()),
+              _navigator(_profileKey, profileIndex,const Center(child: Text('Profile'))),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home), label: 'خانه'),
+                icon: Icon(CupertinoIcons.home),
+                label: 'خانه',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.cart), label: 'سبد خرید'),
+                icon: Icon(CupertinoIcons.cart),
+                label: 'سبد خرید',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.person), label: 'پروفایل'),
+                icon: Icon(CupertinoIcons.person),
+                label: 'پروفایل',
+              ),
             ],
             currentIndex: selectedScreenIndex,
             onTap: (selectedIndex) {

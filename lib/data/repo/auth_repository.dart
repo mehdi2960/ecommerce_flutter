@@ -43,16 +43,14 @@ class AuthRepository implements IAuthRepository {
   @override
   Future<void> refreshToken()async {
       if (authChangeNotifier.value != null) {
-      final AuthInfo authInfo =
-          await dataSource.refreshToken(authChangeNotifier.value!.refreshToken);
+      final AuthInfo authInfo =await dataSource.refreshToken(authChangeNotifier.value!.refreshToken);
       debugPrint('refresh token is: ${authInfo.refreshToken}');
       _persistAuthTokens(authInfo);
     }
   }
 
    Future<void> _persistAuthTokens(AuthInfo authInfo) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
     sharedPreferences.setString("access_token", authInfo.accessToken);
     sharedPreferences.setString("refresh_token", authInfo.refreshToken);
     loadAuthInfo();
