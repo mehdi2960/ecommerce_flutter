@@ -18,7 +18,7 @@ class BannerSlider extends StatelessWidget {
       child: Stack(
         children: [
           PageView.builder(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             controller: _controller,
             itemCount: banners.length,
             itemBuilder: (context, index) => Padding(
