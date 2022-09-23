@@ -20,6 +20,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -32,7 +33,7 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocProvider<CartBloc>(
           create: (context) {
             final bloc = CartBloc(cartRepository);
-            bloc.add(CartStarted());
+            bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
             return bloc;
           },
           child: BlocBuilder<CartBloc, CartState>(
@@ -140,12 +141,33 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           TextButton(
                             onPressed: () {},
-                            child: const Text('حذف از سبد خرید'),
+                            child: const Text('حذف از سبد خرید',style: TextStyle(fontWeight: FontWeight.bold),),
                           ),
                         ],
                       ),
                     );
                   },
+                );
+              } else if (state is CartAuthRequired) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('وارد حساب کاربری خود شوبد'),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const AuthScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('ورود به حساب کاربری'),
+                      ),
+                    ],
+                  ),
                 );
               } else {
                 throw Exception('current cart state is not valid');
