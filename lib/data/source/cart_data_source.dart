@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:nike_ecommerce_flutter/data/add_to_cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/cart_item.dart';
-import 'package:nike_ecommerce_flutter/data/cart_responce.dart';
+import 'package:nike_ecommerce_flutter/data/cart_response.dart';
 
 abstract class ICartDataSource {
-  Future<CartResponce> add(int productId);
-  Future<CartResponce> changeCart(int cartItemId, int count);
+  Future<AddToCartResponse> add(int productId);
+  Future<AddToCartResponse> changeCart(int cartItemId, int count);
   Future<void> delete(int cartItemId);
   Future<int> count();
-  Future<List<CartItemEntity>> getAll();
+  Future<CartResponse> getAll();
 }
 
 class CartRemoteDataSource implements ICartDataSource {
@@ -16,14 +17,15 @@ class CartRemoteDataSource implements ICartDataSource {
   CartRemoteDataSource(this.httpClient);
 
   @override
-  Future<CartResponce> add(int productId) async {
-    final responce =  await httpClient.post('cart/add', data: {'product_id': productId});
+  Future<AddToCartResponse> add(int productId) async {
+    final responce =
+        await httpClient.post('cart/add', data: {'product_id': productId});
 
-    return CartResponce.froJson(responce.data);
+    return AddToCartResponse.froJson(responce.data);
   }
 
   @override
-  Future<CartResponce> changeCart(int cartItemId, int count) {
+  Future<AddToCartResponse> changeCart(int cartItemId, int count) {
     // TODO: implement changeCart
     throw UnimplementedError();
   }
@@ -41,8 +43,8 @@ class CartRemoteDataSource implements ICartDataSource {
   }
 
   @override
-  Future<List<CartItemEntity>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<CartResponse> getAll() async {
+    final response = await httpClient.get('cart/list');
+    return CartResponse.fromJson(response.data);
   }
 }
