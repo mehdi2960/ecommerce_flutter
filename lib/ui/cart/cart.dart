@@ -17,10 +17,24 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  CartBloc? cartBloc;
   @override
   void initState() {
     super.initState();
+    AuthRepository.authChangeNotifier.addListener(authChangeNotifierListener);
+  }
 
+  void authChangeNotifierListener() {
+    cartBloc?.add(
+      CartAuthInfoChange(AuthRepository.authChangeNotifier.value),
+    );
+  }
+
+  @override
+  void dispose() {
+    AuthRepository.authChangeNotifier.removeListener(authChangeNotifierListener);
+    cartBloc?.close();
+    super.dispose();
   }
 
   @override
@@ -33,6 +47,7 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocProvider<CartBloc>(
           create: (context) {
             final bloc = CartBloc(cartRepository);
+            cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
             return bloc;
           },
@@ -141,7 +156,10 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           TextButton(
                             onPressed: () {},
-                            child: const Text('حذف از سبد خرید',style: TextStyle(fontWeight: FontWeight.bold),),
+                            child: const Text(
+                              'حذف از سبد خرید',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       ),
