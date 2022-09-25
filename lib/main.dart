@@ -24,12 +24,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        appBarTheme:const AppBarTheme(backgroundColor:Colors.white,foregroundColor: LightThemeColors.primaryTextColor),
         scaffoldBackgroundColor: Colors.white,
         snackBarTheme:  SnackBarThemeData(contentTextStyle: defaultTextStyle.apply(color: Colors.white)),
         colorScheme: const ColorScheme.light(
           primary: LightThemeColors.primaryColor,
           secondary: LightThemeColors.secondaryColor,
           onSecondary: Colors.white,
+          surfaceVariant: Color(0xffF5F5F5),
         ),
         textTheme: TextTheme(
           subtitle1: defaultTextStyle.apply(
