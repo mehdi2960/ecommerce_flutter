@@ -73,7 +73,7 @@ class _CartScreenState extends State<CartScreen> {
                   child: Text(state.exception.message),
                 );
               } else if (state is CartSuccess) {
-                return SmartRefresher(
+                return SmartRefresher( 
                   controller: _refreshController,
                   child: ListView.builder(
                     itemCount: state.cartResponse.cartItems.length,

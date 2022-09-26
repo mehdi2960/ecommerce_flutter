@@ -6,13 +6,7 @@ import 'package:nike_ecommerce_flutter/data/source/cart_data_source.dart';
 
 final cartRepository = CartRepository(CartRemoteDataSource(httpClient));
 
-abstract class ICartRepository {
-  Future<AddToCartResponse> add(int productId);
-  Future<AddToCartResponse> changeCart(int cartItemId, int count);
-  Future<void> delete(int cartItemId);
-  Future<int> count();
-  Future<CartResponse> getAll();
-}
+abstract class ICartRepository extends ICartDataSource {}
 
 class CartRepository implements ICartRepository {
   final ICartDataSource dataSource;
@@ -21,8 +15,7 @@ class CartRepository implements ICartRepository {
 
   @override
   Future<AddToCartResponse> add(int productId) {
-    // TODO: implement add
-    throw UnimplementedError();
+    return dataSource.add(productId);
   }
 
   @override
@@ -39,7 +32,7 @@ class CartRepository implements ICartRepository {
 
   @override
   Future<void> delete(int cartItemId) {
-   return dataSource.delete(cartItemId);
+    return dataSource.delete(cartItemId);
   }
 
   @override

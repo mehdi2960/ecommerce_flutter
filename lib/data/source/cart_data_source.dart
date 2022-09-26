@@ -18,10 +18,9 @@ class CartRemoteDataSource implements ICartDataSource {
 
   @override
   Future<AddToCartResponse> add(int productId) async {
-    final responce =
-        await httpClient.post('cart/add', data: {'product_id': productId});
+    final responce = await httpClient.post('cart/add', data: {'product_id': productId});
 
-    return AddToCartResponse.froJson(responce.data);
+    return AddToCartResponse.fromJson(responce.data);
   }
 
   @override

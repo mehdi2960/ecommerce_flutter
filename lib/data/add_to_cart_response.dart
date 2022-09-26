@@ -5,7 +5,7 @@ class AddToCartResponse {
 
   AddToCartResponse(this.productId, this.cartItemId, this.count);
 
-  AddToCartResponse.froJson(Map<String, dynamic> json)
+  AddToCartResponse.fromJson(Map<String, dynamic> json)
       : productId = json['product_id'],
         cartItemId = json['id'],
         count = json['count'];
