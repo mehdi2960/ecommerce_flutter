@@ -12,6 +12,7 @@ import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
+  final RefreshController _refreshController = RefreshController();
   @override
   void initState() {
     super.initState();
@@ -53,6 +55,9 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocProvider<CartBloc>(
           create: (context) {
             final bloc = CartBloc(cartRepository);
+            bloc.stream.listen((event) {
+
+            });
             cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
             return bloc;
@@ -68,17 +73,20 @@ class _CartScreenState extends State<CartScreen> {
                   child: Text(state.exception.message),
                 );
               } else if (state is CartSuccess) {
-                return ListView.builder(
-                  itemCount: state.cartResponse.cartItems.length,
-                  itemBuilder: (context, index) {
-                    final data = state.cartResponse.cartItems[index];
-                    return CartItem(
-                      data: data,
-                      onDeleteButtonClick: () {
-                        cartBloc?.add(CartDeleteButtonClicked(data.id));
-                      },
-                    );
-                  },
+                return SmartRefresher(
+                  controller: _refreshController,
+                  child: ListView.builder(
+                    itemCount: state.cartResponse.cartItems.length,
+                    itemBuilder: (context, index) {
+                      final data = state.cartResponse.cartItems[index];
+                      return CartItem(
+                        data: data,
+                        onDeleteButtonClick: () {
+                          cartBloc?.add(CartDeleteButtonClicked(data.id));
+                        },
+                      );
+                    },
+                  ),
                 );
               } else if (state is CartAuthRequired) {
                 return EmptyView(
@@ -99,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
               } else if (state is CartEmpty) {
                 return EmptyView(
                   message: 'تاکنون هیچ آیتمی به سبد خرید خود اضافه نکرده اید',
-                  image: SvgPicture.asset('assets/img/empty.svg'),
+                  image: SvgPicture.asset('assets/img/empty.svg',width: 150,),
                 );
               } else {
                 throw Exception('current cart state is not valid');

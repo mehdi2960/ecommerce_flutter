@@ -39,7 +39,7 @@ class CartRepository implements ICartRepository {
 
   @override
   Future<void> delete(int cartItemId) {
-   return cartRepository.delete(cartItemId);
+   return dataSource.delete(cartItemId);
   }
 
   @override

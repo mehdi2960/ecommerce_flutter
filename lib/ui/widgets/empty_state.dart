@@ -20,7 +20,7 @@ class EmptyView extends StatelessWidget {
               const EdgeInsets.only(left: 48, right: 48, top: 24, bottom: 16),
           child: Text(
             message,
-            style: Theme.of(context).textTheme.headline6!.copyWith(height: 1.3),
+            style: Theme.of(context).textTheme.headline6!.copyWith(height: 1.2),
             textAlign: TextAlign.center,
           ),
         ),

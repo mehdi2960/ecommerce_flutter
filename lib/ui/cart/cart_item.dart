@@ -110,7 +110,7 @@ class CartItem extends StatelessWidget {
                   ),
                 )
               : TextButton(
-                  onPressed: () {},
+                  onPressed: onDeleteButtonClick,
                   child: const Text(
                     'حذف از سبد خرید',
                     style: TextStyle(fontWeight: FontWeight.bold),

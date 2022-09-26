@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:nike_ecommerce_flutter/common/exceptions.dart';
 import 'package:nike_ecommerce_flutter/data/auth_info.dart';
 import 'package:nike_ecommerce_flutter/data/cart_response.dart';
@@ -21,29 +22,32 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             await LoadCartItems(emit);
           }
         } else if (event is CartDeleteButtonClicked) {
-          try {
-            if (state is CartSuccess) {
-              final successState = (state as CartSuccess);
-              final cartItems = successState.cartResponse.cartItems.firstWhere(
-                (element) => element.id == event.cartItemId,
-              );
-              cartItems.deleteButtonLoading = true;
+           try {
+          if (state is CartSuccess) {
+            final successState = (state as CartSuccess);
+            final index = successState.cartResponse.cartItems
+                .indexWhere((element) => element.id == event.cartItemId);
+            successState.cartResponse.cartItems[index].deleteButtonLoading =
+                true;
+            emit(CartSuccess(successState.cartResponse));
+          }
+
+          // await Future.delayed(const Duration(milliseconds: 2000));
+          await cartRepository.delete(event.cartItemId);
+
+          if (state is CartSuccess) {
+            final successState = (state as CartSuccess);
+            successState.cartResponse.cartItems
+                .removeWhere((element) => element.id == event.cartItemId);
+            if (successState.cartResponse.cartItems.isEmpty) {
+              emit(CartEmpty());
+            } else {
               emit(CartSuccess(successState.cartResponse));
             }
-            await cartRepository.delete(event.cartItemId);
-
-            if (state is CartSuccess) {
-              final successState = (state as CartSuccess);
-              successState.cartResponse.cartItems.removeWhere(
-                (element) => element.id == event.cartItemId,
-              );
-              if (successState.cartResponse.cartItems.isEmpty) {
-                emit(CartEmpty());
-              } else {
-                emit(CartSuccess(successState.cartResponse));
-              }
-            }
-          } catch (e) {}
+          }
+        } catch (e) {
+          // debugPrint(e.toString());
+        }
         } else if (event is CartAuthInfoChange) {
           if (event.authInfo == null || event.authInfo!.accessToken.isEmpty) {
             emit(CartAuthRequired());
