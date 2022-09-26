@@ -20,7 +20,30 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           } else {
             await LoadCartItems(emit);
           }
-        } else if (event is CartDeleteButton) {
+        } else if (event is CartDeleteButtonClicked) {
+          try {
+            if (state is CartSuccess) {
+              final successState = (state as CartSuccess);
+              final cartItems = successState.cartResponse.cartItems.firstWhere(
+                (element) => element.id == event.cartItemId,
+              );
+              cartItems.deleteButtonLoading = true;
+              emit(CartSuccess(successState.cartResponse));
+            }
+            await cartRepository.delete(event.cartItemId);
+
+            if (state is CartSuccess) {
+              final successState = (state as CartSuccess);
+              successState.cartResponse.cartItems.removeWhere(
+                (element) => element.id == event.cartItemId,
+              );
+              if (successState.cartResponse.cartItems.isEmpty) {
+                emit(CartEmpty());
+              } else {
+                emit(CartSuccess(successState.cartResponse));
+              }
+            }
+          } catch (e) {}
         } else if (event is CartAuthInfoChange) {
           if (event.authInfo == null || event.authInfo!.accessToken.isEmpty) {
             emit(CartAuthRequired());
