@@ -17,17 +17,18 @@ class CartRepository implements ICartRepository {
   Future<AddToCartResponse> add(int productId) {
     return dataSource.add(productId);
   }
+  
 
-  @override
-  Future<AddToCartResponse> changeCart(int cartItemId, int count) {
-    // TODO: implement changeCart
-    throw UnimplementedError();
+ @override
+  Future<AddToCartResponse> changeCount(int cartItemId, int count) {
+    return dataSource.changeCount(cartItemId, count);
   }
 
   @override
-  Future<int> count() {
-    // TODO: implement count
-    throw UnimplementedError();
+  Future<int> count() async {
+    final count = await dataSource.count();
+    // cartItemCountNotifier.value = count;
+    return count;
   }
 
   @override

@@ -9,10 +9,14 @@ class CartItem extends StatelessWidget {
     Key? key,
     required this.data,
     required this.onDeleteButtonClick,
+    required this.onIncreaseButtonClick,
+    required this.onDecreaseButtonClick,
   }) : super(key: key);
 
   final CartItemEntity data;
   final GestureTapCallback onDeleteButtonClick;
+  final GestureTapCallback onIncreaseButtonClick;
+  final GestureTapCallback onDecreaseButtonClick;
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +69,22 @@ class CartItem extends StatelessWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: onIncreaseButtonClick,
                           icon: const Icon(
                             CupertinoIcons.plus_rectangle,
                           ),
                         ),
-                        Text(
-                          data.count.toString(),
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
+                        data.changeCountLoading
+                            ? CupertinoActivityIndicator(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              )
+                            : Text(
+                                data.count.toString(),
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
                         IconButton(
-                          onPressed: onDeleteButtonClick,
+                          onPressed: onDecreaseButtonClick,
                           icon: const Icon(
                             CupertinoIcons.minus_rectangle,
                           ),
@@ -90,7 +99,9 @@ class CartItem extends StatelessWidget {
                     Text(
                       data.product.previousPrice.withPriceLabel,
                       style: const TextStyle(
-                        decoration: TextDecoration.lineThrough,
+                       color: Colors.red,
+                       fontSize: 14,
+                       decoration:TextDecoration.lineThrough
                       ),
                     ),
                     Text(data.product.price.withPriceLabel),
