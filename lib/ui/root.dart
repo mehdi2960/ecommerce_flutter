@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
+import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/badge.dart';
@@ -73,6 +74,7 @@ class _RootScreenState extends State<RootScreen> {
                     Text('پروفایل'),
                     ElevatedButton(
                       onPressed: () {
+                        CartRepository.cartItemCountNotifier.value = 0;
                         authRepository.signOut();
                       },
                       child: Text('خروج'),
@@ -95,7 +97,13 @@ class _RootScreenState extends State<RootScreen> {
                     Icon(CupertinoIcons.cart),
                     Positioned(
                       right: -10,
-                      child: Badge(value: 5),
+                      child: ValueListenableBuilder<int>(
+                        builder: (context, value, child) {
+                          return Badge(value: value);
+                        },
+                        valueListenable: CartRepository.cartItemCountNotifier,
+                        child: Badge(value: 5),
+                      ),
                     ),
                   ],
                 ),
@@ -131,5 +139,12 @@ class _RootScreenState extends State<RootScreen> {
               ),
             ),
           );
+  }
+
+//gereftan Adad Badge
+  @override
+  void initState() {
+    cartRepository.count();
+    super.initState();
   }
 }
