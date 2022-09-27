@@ -19,41 +19,41 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           if (authInfo == null || authInfo.accessToken.isEmpty) {
             emit(CartAuthRequired());
           } else {
-            await LoadCartItems(emit);
+            await LoadCartItems(emit,event.isRefreshing);
           }
         } else if (event is CartDeleteButtonClicked) {
-           try {
-          if (state is CartSuccess) {
-            final successState = (state as CartSuccess);
-            final index = successState.cartResponse.cartItems
-                .indexWhere((element) => element.id == event.cartItemId);
-            successState.cartResponse.cartItems[index].deleteButtonLoading =
-                true;
-            emit(CartSuccess(successState.cartResponse));
-          }
-
-          // await Future.delayed(const Duration(milliseconds: 2000));
-          await cartRepository.delete(event.cartItemId);
-
-          if (state is CartSuccess) {
-            final successState = (state as CartSuccess);
-            successState.cartResponse.cartItems
-                .removeWhere((element) => element.id == event.cartItemId);
-            if (successState.cartResponse.cartItems.isEmpty) {
-              emit(CartEmpty());
-            } else {
+          try {
+            if (state is CartSuccess) {
+              final successState = (state as CartSuccess);
+              final index = successState.cartResponse.cartItems
+                  .indexWhere((element) => element.id == event.cartItemId);
+              successState.cartResponse.cartItems[index].deleteButtonLoading =
+                  true;
               emit(CartSuccess(successState.cartResponse));
             }
+
+            // await Future.delayed(const Duration(milliseconds: 2000));
+            await cartRepository.delete(event.cartItemId);
+
+            if (state is CartSuccess) {
+              final successState = (state as CartSuccess);
+              successState.cartResponse.cartItems
+                  .removeWhere((element) => element.id == event.cartItemId);
+              if (successState.cartResponse.cartItems.isEmpty) {
+                emit(CartEmpty());
+              } else {
+                emit(CartSuccess(successState.cartResponse));
+              }
+            }
+          } catch (e) {
+            // debugPrint(e.toString());
           }
-        } catch (e) {
-          // debugPrint(e.toString());
-        }
         } else if (event is CartAuthInfoChange) {
           if (event.authInfo == null || event.authInfo!.accessToken.isEmpty) {
             emit(CartAuthRequired());
           } else {
             if (state is CartAuthRequired) {
-              await LoadCartItems(emit);
+              await LoadCartItems(emit,false);
             }
           }
         }
@@ -61,9 +61,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     );
   }
 
-  Future<void> LoadCartItems(Emitter<CartState> emit) async {
+  Future<void> LoadCartItems(Emitter<CartState> emit, bool isRefreshing) async {
     try {
-      emit(CartLoading());
+      if (!isRefreshing) {
+        emit(CartLoading());
+      }
       final result = await cartRepository.getAll();
       if (result.cartItems.isEmpty) {
         emit(CartEmpty());

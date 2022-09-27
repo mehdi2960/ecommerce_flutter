@@ -9,8 +9,9 @@ abstract class CartEvent extends Equatable {
 
 class CartStarted extends CartEvent {
   final AuthInfo? authInfo;
+  final bool isRefreshing;
 
-  const CartStarted(this.authInfo);
+  const CartStarted(this.authInfo, {this.isRefreshing=false});
 }
 
 class CartDeleteButtonClicked extends CartEvent {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +25,9 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
+  StreamSubscription? stateStreamSubscription;
   final RefreshController _refreshController = RefreshController();
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +45,7 @@ class _CartScreenState extends State<CartScreen> {
     AuthRepository.authChangeNotifier
         .removeListener(authChangeNotifierListener);
     cartBloc?.close();
+    stateStreamSubscription?.cancel();
     super.dispose();
   }
 
@@ -55,8 +60,14 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocProvider<CartBloc>(
           create: (context) {
             final bloc = CartBloc(cartRepository);
-            bloc.stream.listen((event) {
-
+            stateStreamSubscription = bloc.stream.listen((state) {
+              if (_refreshController.isRefresh) {
+                if (state is CartSuccess) {
+                  _refreshController.refreshCompleted();
+                } else if (state is CartError) {
+                  _refreshController.refreshFailed();
+                }
+              }
             });
             cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
@@ -73,8 +84,22 @@ class _CartScreenState extends State<CartScreen> {
                   child: Text(state.exception.message),
                 );
               } else if (state is CartSuccess) {
-                return SmartRefresher( 
+                return SmartRefresher(
                   controller: _refreshController,
+                  header: const ClassicHeader(
+                    completeText: 'با موفقیت انجام شد.',
+                    refreshingText: 'درحال بروز رسانی',
+                    idleText: 'برای به روز رسانی پایین بکشید',
+                    releaseText: 'رها کنید',
+                    failedText: 'خطای نامشخص',
+                    spacing: 2,
+                    completeIcon: Icon(CupertinoIcons.checkmark_circle,color: Colors.grey,size: 20,),
+                  ),
+                  onRefresh: () {
+                    cartBloc?.add(CartStarted(
+                        AuthRepository.authChangeNotifier.value,
+                        isRefreshing: true));
+                  },
                   child: ListView.builder(
                     itemCount: state.cartResponse.cartItems.length,
                     itemBuilder: (context, index) {
@@ -107,7 +132,10 @@ class _CartScreenState extends State<CartScreen> {
               } else if (state is CartEmpty) {
                 return EmptyView(
                   message: 'تاکنون هیچ آیتمی به سبد خرید خود اضافه نکرده اید',
-                  image: SvgPicture.asset('assets/img/empty.svg',width: 150,),
+                  image: SvgPicture.asset(
+                    'assets/img/empty.svg',
+                    width: 150,
+                  ),
                 );
               } else {
                 throw Exception('current cart state is not valid');
