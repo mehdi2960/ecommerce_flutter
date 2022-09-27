@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
+import 'package:nike_ecommerce_flutter/ui/widgets/badge.dart';
 
 const int homeIndex = 0;
 const int cartIndex = 1;
@@ -82,13 +83,22 @@ class _RootScreenState extends State<RootScreen> {
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(CupertinoIcons.home),
                 label: 'خانه',
               ),
               BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.cart),
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Icon(CupertinoIcons.cart),
+                    Positioned(
+                      right: -10,
+                      child: Badge(value: 5),
+                    ),
+                  ],
+                ),
                 label: 'سبد خرید',
               ),
               BottomNavigationBarItem(
