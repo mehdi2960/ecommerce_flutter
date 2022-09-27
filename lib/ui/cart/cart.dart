@@ -11,6 +11,7 @@ import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/bloc/cart_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/cart_item.dart';
+import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/empty_state.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
@@ -93,23 +94,38 @@ class _CartScreenState extends State<CartScreen> {
                     releaseText: 'رها کنید',
                     failedText: 'خطای نامشخص',
                     spacing: 2,
-                    completeIcon: Icon(CupertinoIcons.checkmark_circle,color: Colors.grey,size: 20,),
+                    completeIcon: Icon(
+                      CupertinoIcons.checkmark_circle,
+                      color: Colors.grey,
+                      size: 20,
+                    ),
                   ),
                   onRefresh: () {
-                    cartBloc?.add(CartStarted(
+                    cartBloc?.add(
+                      CartStarted(
                         AuthRepository.authChangeNotifier.value,
-                        isRefreshing: true));
+                        isRefreshing: true,
+                      ),
+                    );
                   },
                   child: ListView.builder(
-                    itemCount: state.cartResponse.cartItems.length,
+                    itemCount: state.cartResponse.cartItems.length + 1,
                     itemBuilder: (context, index) {
-                      final data = state.cartResponse.cartItems[index];
-                      return CartItem(
-                        data: data,
-                        onDeleteButtonClick: () {
-                          cartBloc?.add(CartDeleteButtonClicked(data.id));
-                        },
-                      );
+                      if (index < state.cartResponse.cartItems.length) {
+                        final data = state.cartResponse.cartItems[index];
+                        return CartItem(
+                          data: data,
+                          onDeleteButtonClick: () {
+                            cartBloc?.add(CartDeleteButtonClicked(data.id));
+                          },
+                        );
+                      } else {
+                        return PriceInfo(
+                          totalPrice: state.cartResponse.totalPrice,
+                          shippingCost: state.cartResponse.shippingCost,
+                          payablePrice: state.cartResponse.payablePrice,
+                        );
+                      }
                     },
                   ),
                 );
