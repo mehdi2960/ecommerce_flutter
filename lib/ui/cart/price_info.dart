@@ -18,10 +18,14 @@ class PriceInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 8, 0),
-          child:
-              Text('جزییات خرید', style: Theme.of(context).textTheme.bodySmall),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(0, 24, 8, 0),
+          child: Text(
+            'جزییات خرید',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         Container(
           margin: const EdgeInsets.fromLTRB(8, 8, 8, 32),
