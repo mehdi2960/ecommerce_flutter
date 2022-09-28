@@ -25,9 +25,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        appBarTheme:const AppBarTheme(backgroundColor:Colors.white,foregroundColor: LightThemeColors.primaryTextColor),
+        hintColor: LightThemeColors.secondaryTextColor,
+        inputDecorationTheme: InputDecorationTheme(
+          border: const OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: LightThemeColors.primaryTextColor.withOpacity(0.1),
+            ),
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: LightThemeColors.primaryTextColor),
         scaffoldBackgroundColor: Colors.white,
-        snackBarTheme:  SnackBarThemeData(contentTextStyle: defaultTextStyle.apply(color: Colors.white)),
+        snackBarTheme: SnackBarThemeData(
+            contentTextStyle: defaultTextStyle.apply(color: Colors.white)),
         colorScheme: const ColorScheme.light(
           primary: LightThemeColors.primaryColor,
           secondary: LightThemeColors.secondaryColor,
