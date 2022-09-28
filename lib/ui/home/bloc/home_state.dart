@@ -10,7 +10,7 @@ class HomeLoading extends HomeState {}
 
 class HomeError extends HomeState {
   final AppException exception;
-  const HomeError({required this.exception});
+   const HomeError({required this.exception});
 
   @override
   List<Object> get props => [exception];

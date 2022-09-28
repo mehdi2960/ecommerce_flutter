@@ -18,9 +18,11 @@ class ProductRemoteDataSource with HttpResponceValidator implements IProductData
     final responce = await httpClient.get("product/list?sort=$sort");
     validateResponce(responce);
     final products = <ProductEntity>[];
-    (responce.data as List).forEach((element) {
-      products.add(ProductEntity.fromJson(element));
-    });
+    (responce.data as List).forEach(
+      (element) {
+        products.add(ProductEntity.fromJson(element));
+      },
+    );
 
     return products;
   }
@@ -30,11 +32,12 @@ class ProductRemoteDataSource with HttpResponceValidator implements IProductData
     final responce = await httpClient.get("product/search?q=$searchTerm");
     validateResponce(responce);
     final products = <ProductEntity>[];
-    (responce.data as List).forEach((element) {
-      products.add(ProductEntity.fromJson(element));
-    });
+    (responce.data as List).forEach(
+      (element) {
+        products.add(ProductEntity.fromJson(element));
+      },
+    );
 
     return products;
   }
-
 }

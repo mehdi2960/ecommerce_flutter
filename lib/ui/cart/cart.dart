@@ -28,6 +28,7 @@ class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
   StreamSubscription? stateStreamSubscription;
   final RefreshController _refreshController = RefreshController();
+  bool stateSuccess = false;
 
   @override
   void initState() {
@@ -53,6 +54,18 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Visibility(
+          visible: stateSuccess,
+          child: Container(
+            margin: const EdgeInsets.only(left: 48, right: 48),
+            width: MediaQuery.of(context).size.width,
+            child: FloatingActionButton.extended(
+              onPressed: () {},
+              label: const Text('پرداخت'),
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         appBar: AppBar(
           centerTitle: true,
@@ -61,15 +74,20 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocProvider<CartBloc>(
           create: (context) {
             final bloc = CartBloc(cartRepository);
-            stateStreamSubscription = bloc.stream.listen((state) {
-              if (_refreshController.isRefresh) {
-                if (state is CartSuccess) {
-                  _refreshController.refreshCompleted();
-                } else if (state is CartError) {
-                  _refreshController.refreshFailed();
+            stateStreamSubscription = bloc.stream.listen(
+              (state) {
+                setState(() {
+                  stateSuccess = state is CartSuccess;
+                });
+                if (_refreshController.isRefresh) {
+                  if (state is CartSuccess) {
+                    _refreshController.refreshCompleted();
+                  } else if (state is CartError) {
+                    _refreshController.refreshFailed();
+                  }
                 }
-              }
-            });
+              },
+            );
             cartBloc = bloc;
             bloc.add(CartStarted(AuthRepository.authChangeNotifier.value));
             return bloc;
@@ -109,6 +127,7 @@ class _CartScreenState extends State<CartScreen> {
                     );
                   },
                   child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 80),
                     itemCount: state.cartResponse.cartItems.length + 1,
                     itemBuilder: (context, index) {
                       if (index < state.cartResponse.cartItems.length) {
@@ -120,7 +139,8 @@ class _CartScreenState extends State<CartScreen> {
                           },
                           onDecreaseButtonClick: () {
                             if (data.count > 1) {
-                              cartBloc?.add(DecreaseCountButtonClicked(data.id));
+                              cartBloc
+                                  ?.add(DecreaseCountButtonClicked(data.id));
                             }
                           },
                           onIncreaseButtonClick: () {
