@@ -3,9 +3,9 @@ class CreateOrderResult {
   final String bankGateWayUrl;
 
   CreateOrderResult(this.orderId, this.bankGateWayUrl);
-  CreateOrderResult.fromjson(Map<String, dynamic> json)
+  CreateOrderResult.fromJson(Map<String, dynamic> json)
       : orderId = json['order_id'],
-        bankGateWayUrl = json['bank_geteway_url'];
+        bankGateWayUrl = json['bank_gateway_url'];
 }
 
 class CreateOrderParams {

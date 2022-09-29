@@ -20,9 +20,9 @@ class OrderRemoteDataSource implements IOrderDataSource {
       'address': params.address,
       'payment_method': params.paymentMethod == PaymentMethod.online
           ? 'online'
-          : 'cash_on_delivary',
+          : 'cash_on_delivery',
     });
 
-    return CreateOrderResult.fromjson(responce.data);
+    return CreateOrderResult.fromJson(responce.data);
   }
 }

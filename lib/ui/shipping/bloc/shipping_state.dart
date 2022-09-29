@@ -24,6 +24,7 @@ class ShippingSuccess extends ShippingState {
   final CreateOrderResult result;
 
   const ShippingSuccess(this.result);
+  
   @override
   List<Object> get props => [result];
 }

@@ -4,6 +4,7 @@ import 'package:nike_ecommerce_flutter/data/source/order_data_source.dart';
 
 
 final orderRepository=OrderRepository(OrderRemoteDataSource(httpClient));
+
 abstract class IOrderRepository extends IOrderDataSource {}
 
 class OrderRepository implements IOrderRepository {
@@ -11,7 +12,5 @@ class OrderRepository implements IOrderRepository {
 
   OrderRepository(this.dataSource);
   @override
-  Future<CreateOrderResult> create(CreateOrderParams params) {
-    return dataSource.create(params);
-  }
+  Future<CreateOrderResult> create(CreateOrderParams params) => dataSource.create(params);
 }
