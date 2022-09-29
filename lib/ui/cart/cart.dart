@@ -149,16 +149,21 @@ class _CartScreenState extends State<CartScreen> {
                         return CartItem(
                           data: data,
                           onDeleteButtonClick: () {
-                            cartBloc?.add(CartDeleteButtonClicked(data.id));
+                            cartBloc?.add(
+                              CartDeleteButtonClicked(data.id),
+                            );
                           },
                           onDecreaseButtonClick: () {
                             if (data.count > 1) {
-                              cartBloc
-                                  ?.add(DecreaseCountButtonClicked(data.id));
+                              cartBloc?.add(
+                                DecreaseCountButtonClicked(data.id),
+                              );
                             }
                           },
                           onIncreaseButtonClick: () {
-                            cartBloc?.add(IncreaseCountButtonClicked(data.id));
+                            cartBloc?.add(
+                              IncreaseCountButtonClicked(data.id),
+                            );
                           },
                         );
                       } else {
@@ -177,8 +182,11 @@ class _CartScreenState extends State<CartScreen> {
                       'برای مشاهده سبد خرید ابتدا وارد حساب کاربری خود شوید',
                   callToAction: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AuthScreen()));
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AuthScreen(),
+                        ),
+                      );
                     },
                     child: const Text("ورود به حساب کاربری"),
                   ),
