@@ -8,11 +8,16 @@ import 'package:nike_ecommerce_flutter/utils/util.dart';
 class ProductItem extends StatelessWidget {
   const ProductItem({
     Key? key,
-    required this.product, required this.borderRadius,
+    required this.product,
+    required this.borderRadius,
+    this.itemWidth = 176,
+    this.itemHeight = 189,
   }) : super(key: key);
 
   final ProductEntity product;
   final BorderRadius borderRadius;
+  final double itemWidth;
+  final double itemHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,12 @@ class ProductItem extends StatelessWidget {
       child: InkWell(
         borderRadius: borderRadius,
         onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product,))),
+          MaterialPageRoute(
+            builder: (context) => ProductDetailScreen(
+              product: product,
+            ),
+          ),
+        ),
         child: SizedBox(
           width: 176,
           child: Column(
@@ -29,9 +39,8 @@ class ProductItem extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  SizedBox(
-                    width: 176,
-                    height: 189,
+                  AspectRatio(
+                    aspectRatio: 0.93,
                     child: ImageLoadingService(
                       imageUrl: product.imageUrl,
                       borderRadius: borderRadius,
@@ -61,7 +70,7 @@ class ProductItem extends StatelessWidget {
                 child: Text(
                   product.title,
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  // overflow: TextOverflow.ellipsis,
                 ),
               ),
               Padding(
