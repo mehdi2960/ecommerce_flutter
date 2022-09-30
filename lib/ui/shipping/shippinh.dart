@@ -73,7 +73,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
               } else if (event is ShippingSuccess) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const PaymentReceiptScreen(),
+                    builder: (context) =>  PaymentReceiptScreen(orderId: event.result.orderId,),
                   ),
                 );
               }
