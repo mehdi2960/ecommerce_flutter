@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike_ecommerce_flutter/data/order.dart';
 import 'package:nike_ecommerce_flutter/data/repo/order_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/cart/price_info.dart';
+import 'package:nike_ecommerce_flutter/ui/payment_webview.dart';
 import 'package:nike_ecommerce_flutter/ui/receipt/payment_receipt.dart';
 import 'package:nike_ecommerce_flutter/ui/shipping/bloc/shipping_bloc.dart';
 
@@ -64,16 +65,28 @@ class _ShippingScreenState extends State<ShippingScreen> {
           final bloc = ShippingBloc(orderRepository);
           subscription = bloc.stream.listen(
             (event) {
-              if (event is ShippingError) {
+              if (event is ShippingSuccess) {
+                if (event.result.bankGateWayUrl.isNotEmpty) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PaymentGatewayScreen(
+                        bankGatewayUrl: event.result.bankGateWayUrl,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => PaymentReceiptScreen(
+                        orderId: event.result.orderId,
+                      ),
+                    ),
+                  );
+                }
+              } else if (event is ShippingError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(event.exception.message),
-                  ),
-                );
-              } else if (event is ShippingSuccess) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>  PaymentReceiptScreen(orderId: event.result.orderId,),
                   ),
                 );
               }
@@ -140,7 +153,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                   builder: (context, state) {
                 return state is ShippingLoading
                     ? const Center(
-                        child:  CupertinoActivityIndicator(),
+                        child: CupertinoActivityIndicator(),
                       )
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +179,20 @@ class _ShippingScreenState extends State<ShippingScreen> {
                             width: 16,
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              BlocProvider.of<ShippingBloc>(context).add(
+                                ShippingCreateOrder(
+                                  CreateOrderParams(
+                                    firstNameController.text,
+                                    lastNameController.text,
+                                    phoneNumberController.text,
+                                    postalCodeController.text,
+                                    addressController.text,
+                                    PaymentMethod.online,
+                                  ),
+                                ),
+                              );
+                            },
                             child: const Text('پرداخت اینترنتی'),
                           ),
                         ],
