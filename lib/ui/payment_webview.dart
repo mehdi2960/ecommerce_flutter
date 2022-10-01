@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:nike_ecommerce_flutter/ui/receipt/payment_receipt.dart';
 import 'package:webview_flutter/webview_flutter.dart';

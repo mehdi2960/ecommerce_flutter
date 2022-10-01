@@ -67,13 +67,13 @@ class _ShippingScreenState extends State<ShippingScreen> {
             (event) {
               if (event is ShippingSuccess) {
                 if (event.result.bankGateWayUrl.isNotEmpty) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => PaymentGatewayScreen(
-                        bankGatewayUrl: event.result.bankGateWayUrl,
-                      ),
-                    ),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PaymentGatewayScreen(
+                  //       bankGatewayUrl: event.result.bankGateWayUrl,
+                  //     ),
+                  //   ),
+                  // );
                 } else {
                   Navigator.of(context).push(
                     MaterialPageRoute(
