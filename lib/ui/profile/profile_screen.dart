@@ -8,6 +8,7 @@ import 'package:nike_ecommerce_flutter/data/auth_info.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
+import 'package:nike_ecommerce_flutter/ui/favorite/favorite_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -38,8 +39,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Image.asset('assets/img/nike_logo.png'),
                   ),
-                  Text(
-                      isLogin ? authInfo.email: 'کاربر میهمان'),
+                  Text(isLogin ? authInfo.email : 'کاربر میهمان'),
                   const SizedBox(
                     height: 32,
                   ),
@@ -47,7 +47,13 @@ class ProfileScreen extends StatelessWidget {
                     height: 1,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const FavoriteListScreen(),
+                        ),
+                      );
+                    },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       height: 56,
@@ -115,7 +121,9 @@ class ProfileScreen extends StatelessWidget {
                           },
                         );
                       } else {
-                        Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(builder: (context)=>const AuthScreen()));
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                                builder: (context) => const AuthScreen()));
                       }
                     },
                     child: Container(
