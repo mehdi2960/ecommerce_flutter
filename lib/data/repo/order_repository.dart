@@ -12,10 +12,11 @@ class OrderRepository implements IOrderRepository {
 
   OrderRepository(this.dataSource);
   @override
-  Future<CreateOrderResult> create(CreateOrderParams params) =>  dataSource.create(params);
+  Future<CreateOrderResult> create(CreateOrderParams params) =>
+      dataSource.create(params);
 
   @override
   Future<PaymentReceiptData> getPaymentReceipt(int orderId) {
-   return dataSource.getPaymentReceipt(orderId);
+     return dataSource.getPaymentReceipt(orderId);
   }
 }

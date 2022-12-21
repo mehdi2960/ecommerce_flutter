@@ -35,11 +35,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            foregroundColor: LightThemeColors.primaryTextColor),
+          backgroundColor: Colors.white,
+          foregroundColor: LightThemeColors.primaryTextColor,
+        ),
         scaffoldBackgroundColor: Colors.white,
         snackBarTheme: SnackBarThemeData(
-            contentTextStyle: defaultTextStyle.apply(color: Colors.white)),
+          contentTextStyle: defaultTextStyle.apply(color: Colors.white),
+        ),
         colorScheme: const ColorScheme.light(
           primary: LightThemeColors.primaryColor,
           secondary: LightThemeColors.secondaryColor,
@@ -48,14 +50,17 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           subtitle1: defaultTextStyle.apply(
-              color: LightThemeColors.secondaryTextColor),
+            color: LightThemeColors.secondaryTextColor,
+          ),
           bodyText2: defaultTextStyle,
           button: defaultTextStyle,
           caption: defaultTextStyle.apply(
             color: LightThemeColors.secondaryTextColor,
           ),
           headline6: defaultTextStyle.copyWith(
-              fontWeight: FontWeight.bold, fontSize: 18),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
         ),
       ),
       home: const Directionality(

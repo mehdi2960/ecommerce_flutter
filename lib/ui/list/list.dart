@@ -31,6 +31,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // elevation: 0,
         title: const Text('کفش های ورزشی'),
         centerTitle: false,
       ),
@@ -110,15 +111,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                        state.sortNames[index]),
+                                                      state.sortNames[index],
+                                                    ),
                                                     const SizedBox(
                                                       width: 8,
                                                     ),
-                                                    if (index ==
-                                                        selectedSortIndex)
+                                                    if (index ==selectedSortIndex)
                                                       Icon(
-                                                        CupertinoIcons
-                                                            .check_mark_circled_solid,
+                                                        CupertinoIcons.check_mark_circled_solid,
                                                         color: Theme.of(context)
                                                             .colorScheme
                                                             .primary,
@@ -176,7 +176,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             child: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  viewType==ViewType.grid?ViewType.list:ViewType.grid;
+                                  viewType == ViewType.grid
+                                      ? ViewType.list
+                                      : ViewType.grid;
                                 });
                               },
                               icon: const Icon(CupertinoIcons.square_grid_2x2),
@@ -189,10 +191,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   Expanded(
                     child: GridView.builder(
                       itemCount: products.length,
-                      gridDelegate:
-                           SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.65, //width / hight
-                        crossAxisCount: viewType==ViewType.grid? 2:1,
+                        crossAxisCount: viewType == ViewType.grid ? 2 : 1,
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         final product = products[index];

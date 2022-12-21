@@ -37,7 +37,9 @@ class _AuthScreenState extends State<AuthScreen> {
                 MaterialStateProperty.all(themeData.colorScheme.secondary),
           ),
         ),
-        snackBarTheme: SnackBarThemeData(backgroundColor: themeData.colorScheme.primary,contentTextStyle: const TextStyle(fontFamily: 'Yekan')),
+        snackBarTheme: SnackBarThemeData(
+            backgroundColor: themeData.colorScheme.primary,
+            contentTextStyle: const TextStyle(fontFamily: 'Yekan')),
         colorScheme: themeData.colorScheme.copyWith(onSurface: onBackground),
         inputDecorationTheme: InputDecorationTheme(
           labelStyle: const TextStyle(color: onBackground),
@@ -56,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
           backgroundColor: themeData.colorScheme.secondary,
           body: BlocProvider<AuthBloc>(
             create: (context) {
-              final bloc = AuthBloc(authRepository,cartRepository);
+              final bloc = AuthBloc(authRepository, cartRepository);
               bloc.stream.forEach((state) {
                 if (state is AuthSuccess) {
                   Navigator.of(context).pop();
@@ -131,8 +133,10 @@ class _AuthScreenState extends State<AuthScreen> {
                           //   passwordController.text,
                           // );
                           BlocProvider.of<AuthBloc>(context).add(
-                            AuthButtonIsClicked(usernameController.text,
-                                passwordController.text),
+                            AuthButtonIsClicked(
+                              usernameController.text,
+                              passwordController.text,
+                            ),
                           );
                         },
                         child: state is AuthLoading

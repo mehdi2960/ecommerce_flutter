@@ -13,13 +13,16 @@ class PaymentReceiptBloc
   PaymentReceiptBloc(this.repository) : super(PaymentReceiptLoading()) {
     on<PaymentReceiptEvent>((event, emit) async {
       if (event is PaymentReceiptStarted) {
-        emit(PaymentReceiptLoading());
+        
+        try {
+       emit(PaymentReceiptLoading());
         final result = await repository.getPaymentReceipt(event.orderId);
         emit(PaymentReceiptSuccess(result));
-        try {} catch (e) {
+        } catch (e) {
           emit(PaymentReceiptError(AppException()));
         }
       }
-    });
+    },
+    );
   }
 }

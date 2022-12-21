@@ -3,7 +3,7 @@ import 'package:nike_ecommerce_flutter/data/product.dart';
 class CartItemEntity {
   final ProductEntity product;
   final int id;
-   int count;
+  int count;
   bool deleteButtonLoading = false;
   bool changeCountLoading = false;
 

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:nike_ecommerce_flutter/data/add_to_cart_response.dart';
 import 'package:nike_ecommerce_flutter/data/cart_item.dart';
 import 'package:nike_ecommerce_flutter/data/cart_response.dart';
+import 'package:nike_ecommerce_flutter/data/common/http_responce_validator.dart';
 
 abstract class ICartDataSource {
   Future<AddToCartResponse> add(int productId);

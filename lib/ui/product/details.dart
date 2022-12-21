@@ -46,7 +46,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 _scaffoldKey.currentState?.showSnackBar(
                   const SnackBar(
                     content: Text(
-                        'محصول مورد نطر با موفقیت به سبد خرید شما اضافه شد'),
+                      'محصول مورد نطر با موفقیت به سبد خرید شما اضافه شد',
+                    ),
                   ),
                 );
               } else if (state is ProductAddToCartError) {
