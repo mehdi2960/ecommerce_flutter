@@ -31,6 +31,7 @@ class AuthRemoteDataSource
     return AuthInfo(
       responce.data["access_token"],
       responce.data["refresh_token"],
+      username
     );
   }
 
@@ -47,6 +48,7 @@ class AuthRemoteDataSource
     return AuthInfo(
       responce.data['access_token'],
       responce.data['refresh_token'],
+      ''
     );
   }
 
