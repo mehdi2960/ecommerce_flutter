@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nike_ecommerce_flutter/data/favorite_manager.dart';
 import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/home/home.dart';
 import 'package:nike_ecommerce_flutter/ui/root.dart';
 
-void main() {
+void main() async {
+  await FavoriteManager.init();
   WidgetsFlutterBinding.ensureInitialized();
   authRepository.loadAuthInfo();
   runApp(const MyApp());
