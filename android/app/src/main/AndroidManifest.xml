@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nike_ecommerce_flutter">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    
    <application
         android:label="Nike"
         android:name="${applicationName}"
