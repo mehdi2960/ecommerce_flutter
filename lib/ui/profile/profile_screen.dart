@@ -9,6 +9,7 @@ import 'package:nike_ecommerce_flutter/data/repo/auth_repository.dart';
 import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/ui/auth/auth.dart';
 import 'package:nike_ecommerce_flutter/ui/favorite/favorite_screen.dart';
+import 'package:nike_ecommerce_flutter/ui/order/order_history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -39,7 +40,11 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Image.asset('assets/img/nike_logo.png'),
                   ),
-                  Text(isLogin ? authInfo.email : 'کاربر میهمان'),
+                  Text(
+                    isLogin ? authInfo.email : 'کاربر میهمان',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                   const SizedBox(
                     height: 32,
                   ),
@@ -63,14 +68,21 @@ class ProfileScreen extends StatelessWidget {
                           SizedBox(
                             width: 16,
                           ),
-                          Text('لیست علاقه مندی ها'),
+                          Text(
+                            'لیست علاقه مندی ها',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
                   ),
                   const Divider(height: 1),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const OrderHistoryScreen()));
+                    },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       height: 56,
@@ -80,7 +92,13 @@ class ProfileScreen extends StatelessWidget {
                           SizedBox(
                             width: 16,
                           ),
-                          Text('سوابق سفارش'),
+                          Text(
+                            'سوابق سفارش',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -122,8 +140,10 @@ class ProfileScreen extends StatelessWidget {
                         );
                       } else {
                         Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
-                                builder: (context) => const AuthScreen()));
+                          MaterialPageRoute(
+                            builder: (context) => const AuthScreen(),
+                          ),
+                        );
                       }
                     },
                     child: Container(
@@ -141,8 +161,12 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           Text(
                             isLogin
-                                ? 'خروچ از حساب کاربری'
+                                ? 'خروج از حساب کاربری'
                                 : 'ورود به حساب کاربری',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
