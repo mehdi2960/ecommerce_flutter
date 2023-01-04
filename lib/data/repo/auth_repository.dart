@@ -14,8 +14,11 @@ abstract class IAuthRepository {
 }
 
 class AuthRepository implements IAuthRepository {
-  static final ValueNotifier<AuthInfo?> authChangeNotifier =
-      ValueNotifier(null);
+
+  //!Start Baray Taghir Kardan Dadeha
+  static final ValueNotifier<AuthInfo?> authChangeNotifier =ValueNotifier(null);
+ //! End Baray Taghir Kardan Dadeha
+
   final IAuthDataSource dataSource;
   //  final SharedPreferences sharedPreferences;
 
@@ -36,45 +39,45 @@ class AuthRepository implements IAuthRepository {
     _persistAuthTokens(authInfo);
     debugPrint("access token is: " + authInfo.accessToken);
     // return dataSource.register(username, password);
+   
   }
 
   @override
   Future<void> refreshToken() async {
-    if (authChangeNotifier.value != null) {
-      final AuthInfo authInfo =
-          await dataSource.refreshToken(authChangeNotifier.value!.refreshToken);
-      debugPrint('refresh token is: ${authInfo.refreshToken}');
+    if (authChangeNotifier.value != null) 
+    {
+      final AuthInfo authInfo = await dataSource.refreshToken(authChangeNotifier.value!.refreshToken);
+      // debugPrint('refresh token is: ${authInfo.refreshToken}');
       _persistAuthTokens(authInfo);
     }
   }
 
-  Future<void> _persistAuthTokens(AuthInfo authInfo) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setString("access_token", authInfo.accessToken);
-    sharedPreferences.setString("refresh_token", authInfo.refreshToken);
-    sharedPreferences.setString("email", authInfo.email);
-    loadAuthInfo();
-  }
+   //! Start Save Kardan Etelaat Token
+      Future<void> _persistAuthTokens(AuthInfo authInfo) async {
+        final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        sharedPreferences.setString("access_token", authInfo.accessToken);
+        sharedPreferences.setString("refresh_token", authInfo.refreshToken);
+        sharedPreferences.setString("email", authInfo.email);
+        loadAuthInfo();
+      }
+   //! End Save Kardan Etelaat Token
 
-  Future<void> loadAuthInfo() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    final String accessToken =
-        sharedPreferences.getString("access_token") ?? '';
-
-    final String refreshToken =
-        sharedPreferences.getString("refresh_token") ?? '';
-    if (accessToken.isNotEmpty && refreshToken.isNotEmpty) {
-      authChangeNotifier.value = AuthInfo(accessToken, refreshToken,
-          sharedPreferences.getString("email") ?? "");
-    }
-  }
+  //! Start Khondan Etelaat 
+      Future<void> loadAuthInfo() async {
+        final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        final String accessToken =sharedPreferences.getString("access_token") ?? '';
+        final String refreshToken =sharedPreferences.getString("refresh_token") ?? '';
+        
+        if (accessToken.isNotEmpty && refreshToken.isNotEmpty) 
+        {
+          authChangeNotifier.value = AuthInfo(accessToken, refreshToken, sharedPreferences.getString("email") ?? "");
+        }
+      }
+ //! End Khondan Etelaat 
 
   @override
   Future<void> signOut() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
     authChangeNotifier.value = null;
   }
