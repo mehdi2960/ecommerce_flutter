@@ -8,8 +8,12 @@ import 'package:nike_ecommerce_flutter/ui/root.dart';
 
 void main() async {
   await FavoriteManager.init();
+
+//! Start Khondan Etelaat Dar Kol Poroject
   WidgetsFlutterBinding.ensureInitialized();
   authRepository.loadAuthInfo();
+//! End Khondan Etelaat Dar Kol Poroject
+
   runApp(const MyApp());
 }
 

@@ -127,8 +127,7 @@ class ProfileScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      CartRepository
-                                          .cartItemCountNotifier.value = 0;
+                                      CartRepository.cartItemCountNotifier.value = 0;
                                       authRepository.signOut();
                                     },
                                     child: const Text('بله'),
