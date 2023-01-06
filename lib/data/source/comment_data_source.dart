@@ -4,9 +4,12 @@ import 'package:nike_ecommerce_flutter/data/common/http_responce_validator.dart'
 
 abstract class ICommentDtaSource {
   Future<List<CommentEntity>> getAll({required int productId});
+  Future<CommentEntity> insert(String title, String content, int productId);
 }
 
-class CommentRemoteDataSource with HttpResponceValidator implements ICommentDtaSource {
+class CommentRemoteDataSource
+    with HttpResponceValidator
+    implements ICommentDtaSource {
   final Dio httpClient;
 
   CommentRemoteDataSource(this.httpClient);
@@ -22,5 +25,13 @@ class CommentRemoteDataSource with HttpResponceValidator implements ICommentDtaS
     });
 
     return comments;
+  }
+
+  @override
+  Future<CommentEntity> insert(
+      String title, String content, int productId) async {
+    final responce = await httpClient.post('comment/add',data: {"title": title, "content": content, "product_id": productId});
+    validateResponce(responce);
+    return CommentEntity.fromJson(responce.data);
   }
 }
