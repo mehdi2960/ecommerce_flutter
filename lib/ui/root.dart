@@ -59,7 +59,7 @@ class _RootScreenState extends State<RootScreen> {
               _navigator(
                 _homeKey,
                 homeIndex,
-                const HomeScreen(),
+                 HomeScreen(),
               ),
               _navigator(
                 _cartKey,

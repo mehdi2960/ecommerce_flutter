@@ -9,8 +9,9 @@ abstract class ProductListEvent extends Equatable {
 
 class ProductListStarted extends ProductListEvent {
   final int sort;
+  final String searchTerm;
 
-  const ProductListStarted(this.sort);
+  const ProductListStarted(this.sort, this.searchTerm);
 
   @override
   List<Object> get props => [sort];

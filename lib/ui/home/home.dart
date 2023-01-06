@@ -16,7 +16,8 @@ import 'package:nike_ecommerce_flutter/ui/widgets/slider.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,16 @@ class HomeScreen extends StatelessWidget {
                               height: 56,
                               margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                               child: TextField(
+                                controller: _searchController,
                                 textInputAction: TextInputAction.search,
-                                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                ),
+                                onSubmitted: (value) {
+                                  _search(context);
+                                },
                                 decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(28),
@@ -73,12 +82,14 @@ class HomeScreen extends StatelessWidget {
                                       width: 2,
                                     ),
                                   ),
-                                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                                  
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
                                   label: const Text('جستجو...'),
                                   isCollapsed: false,
                                   prefixIcon: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _search(context);
+                                    },
                                     icon: const Padding(
                                       padding: EdgeInsets.only(right: 8),
                                       child: Icon(CupertinoIcons.search),
@@ -140,6 +151,17 @@ class HomeScreen extends StatelessWidget {
               }
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  //*Search
+  void _search(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProductListScreen.search(
+          searchTerm: _searchController.text,
         ),
       ),
     );

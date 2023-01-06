@@ -17,7 +17,7 @@ class ProductListSuccess extends ProductListState {
   const ProductListSuccess(this.products, this.sort, this.sortNames);
 
   @override
-  List<Object> get props => [products, sort,sortNames];
+  List<Object> get props => [products, sort, sortNames];
 }
 
 class ProductListError extends ProductListState {
@@ -27,4 +27,13 @@ class ProductListError extends ProductListState {
 
   @override
   List<Object> get props => [exception];
+}
+
+class ProductListEmpty extends ProductListState {
+  final String message;
+
+  const ProductListEmpty(this.message);
+
+  @override
+  List<Object> get props => [message];
 }
