@@ -155,7 +155,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                     builder: (context) {
-                                      return const InsertCommentDialog();
+                                      return  InsertCommentDialog(productId: widget.product.id,scaffoldMessenger: _scaffoldKey.currentState,);
                                     });
                               },
                               child: const Text(
