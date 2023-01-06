@@ -11,8 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthRepository authRepository;
   final CartRepository cartRepository;
   bool isLoginMode;
-  AuthBloc(this.authRepository, this.cartRepository, {this.isLoginMode = true})
-      : super(AuthInitial(isLoginMode)) {
+  AuthBloc(this.authRepository, this.cartRepository, {this.isLoginMode = true}): super(AuthInitial(isLoginMode)) {
     on<AuthEvent>(
       (event, emit) async {
         try {

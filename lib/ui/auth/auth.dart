@@ -38,8 +38,9 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
         snackBarTheme: SnackBarThemeData(
-            backgroundColor: themeData.colorScheme.primary,
-            contentTextStyle: const TextStyle(fontFamily: 'Yekan')),
+          backgroundColor: themeData.colorScheme.primary,
+          contentTextStyle: const TextStyle(fontFamily: 'Yekan'),
+        ),
         colorScheme: themeData.colorScheme.copyWith(onSurface: onBackground),
         inputDecorationTheme: InputDecorationTheme(
           labelStyle: const TextStyle(color: onBackground),
@@ -59,25 +60,33 @@ class _AuthScreenState extends State<AuthScreen> {
           body: BlocProvider<AuthBloc>(
             create: (context) {
               final bloc = AuthBloc(authRepository, cartRepository);
-              bloc.stream.forEach((state) {
-                if (state is AuthSuccess) {
-                  Navigator.of(context).pop();
-                } else if (state is AuthError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.exception.message)));
-                }
-              });
+              bloc.stream.forEach(
+                (state) {
+                  if (state is AuthSuccess) {
+                    Navigator.of(context).pop();
+                  } else if (state is AuthError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.exception.message),
+                      ),
+                    );
+                  }
+                },
+              );
               bloc.add(AuthStarted());
               return bloc;
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 48, left: 48),
               child: BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: (previous, current) {
+
+                buildWhen: (previous, current)
+                 {
                   return current is AuthLoading ||
                       current is AuthInitial ||
                       current is AuthError;
                 },
+                
                 builder: (context, state) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

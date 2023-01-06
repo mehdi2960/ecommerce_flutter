@@ -41,14 +41,53 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
-                        return Container(
-                          height: 56,
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/img/nike_logo.png',
-                            height: 24,
-                            fit: BoxFit.fitHeight,
-                          ),
+                        return Column(
+                          children: [
+                            Container(
+                              height: 56,
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/img/nike_logo.png',
+                                height: 24,
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                            Container(
+                              height: 56,
+                              margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                              child: TextField(
+                                textInputAction: TextInputAction.search,
+                                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black),
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(28),
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).dividerColor,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(28),
+                                    borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                                  
+                                  label: const Text('جستجو...'),
+                                  isCollapsed: false,
+                                  prefixIcon: IconButton(
+                                    onPressed: () {},
+                                    icon: const Padding(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: Icon(CupertinoIcons.search),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       case 2:
                         return BannerSlider(
@@ -72,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                         return _HorizentalProductList(
                           title: 'پربازدیدترین',
                           onTap: () {
-                              Navigator.of(context).push(
+                            Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const ProductListScreen(
                                   sort: ProductSort.popular,
