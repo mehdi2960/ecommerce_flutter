@@ -8,6 +8,7 @@ import 'package:nike_ecommerce_flutter/data/repo/cart_repository.dart';
 import 'package:nike_ecommerce_flutter/theme.dart';
 import 'package:nike_ecommerce_flutter/ui/product/bloc/product_bloc.dart';
 import 'package:nike_ecommerce_flutter/ui/product/comment/comment_list.dart';
+import 'package:nike_ecommerce_flutter/ui/product/comment/insert/insert_comment_dialog.dart';
 import 'package:nike_ecommerce_flutter/ui/widgets/image.dart';
 import 'package:nike_ecommerce_flutter/utils/util.dart';
 
@@ -74,8 +75,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   },
                   label: state is ProductAddToCartButtonLoading
                       ? CupertinoActivityIndicator(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                        )
+                          color: Theme.of(context).colorScheme.onSecondary)
                       : const Text('افزودن به سبد خرید'),
                 ),
               ),
@@ -145,7 +145,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               style: Theme.of(context).textTheme.subtitle1,
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    useRootNavigator: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(16),
+                                      ),
+                                    ),
+                                    builder: (context) {
+                                      return const InsertCommentDialog();
+                                    });
+                              },
                               child: const Text(
                                 'ثبت نظر',
                                 style: TextStyle(
